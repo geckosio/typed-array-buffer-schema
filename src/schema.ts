@@ -3,11 +3,7 @@
 export class Schema {
   private _bytes: number = 0
 
-  constructor(
-    private _id: string,
-    private _name: string,
-    private _struct: Object
-  ) {
+  constructor(private _id: string, private _name: string, private _struct: Object) {
     Schema.Validation(_struct)
     this.calcBytes()
   }

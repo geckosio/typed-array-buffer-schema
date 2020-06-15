@@ -58,10 +58,7 @@ export class Serialize {
               flat.push({ d: data[property], t: schema[property].type._type })
             } else {
               // crop strings to default lenght of 12 characters if nothing else is specified
-              if (
-                schema[property]._type === 'String8' ||
-                schema[property]._type === 'String16'
-              ) {
+              if (schema[property]._type === 'String8' || schema[property]._type === 'String16') {
                 data[property] = this.cropString(data[property], 12)
               }
               flat.push({ d: data[property], t: schema[property]._type })
@@ -314,13 +311,7 @@ export class Serialize {
     // add dataPerScheme to data
     data = {}
 
-    const populateData = (
-      obj: any,
-      key: any,
-      value: any,
-      path: string = '',
-      isArray = false
-    ) => {
+    const populateData = (obj: any, key: any, value: any, path: string = '', isArray = false) => {
       if (obj && obj._id && obj._id === key) {
         let p = path.replace(/_struct\./, '').replace(/\.$/, '')
         // if it is a schema[], but only has one set, we manually have to make sure it transforms to an array
