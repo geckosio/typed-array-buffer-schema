@@ -1,0 +1,49 @@
+{
+  "name": "@geckos.io/typed-array-buffer-schema",
+  "version": "1.0.0",
+  "description": "A Schema based Object to Buffer converter",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "npm run build && npm-run-all --parallel dev:*",
+    "dev:tsc": "tsc --watch",
+    "dev:nodemon": "nodemon lib/dev.js --watch lib",
+    "build": "npm run clean && tsc",
+    "test": "jest --collectCoverage",
+    "clean": "rimraf lib",
+    "format": "prettier --write src/**/*.ts",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "keywords": [
+    "typed",
+    "array",
+    "buffer",
+    "serialization",
+    "schema",
+    "binary"
+  ],
+  "author": "Yannick Deubel",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/geckosio/typed-array-buffer-schema.git"
+  },
+  "bugs": {
+    "url": "https://github.com/geckosio/typed-array-buffer-schema/issues"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.155",
+    "jest": "^26.0.1",
+    "nodemon": "^2.0.4",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.9.5"
+  },
+  "funding": {
+    "url": "https://github.com/sponsors/yandeu"
+  }
+}
