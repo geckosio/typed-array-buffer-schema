@@ -19,11 +19,13 @@
 
 ---
 
-## Schema
+## Usage
+
+#### common.js
 
 ```js
-import { BufferSchema, Model, uint8, int16, uint16 } from './index'
-import { string8, int64 } from './views'
+import { BufferSchema, Model } from '@geckos.io/typed-array-buffer-schema'
+import { uint8, int16, uint16, int64, string8 } from '@geckos.io/typed-array-buffer-schema'
 
 const playerSchema = BufferSchema.schema('player', {
   id: uint8,
@@ -45,6 +47,14 @@ const mainSchema = BufferSchema.schema('snapshot', {
   towers: [towerSchema]
 })
 
+export const mainModel = new Model(mainSchema)
+```
+
+#### server.js
+
+```js
+import { mainModel } from './common.js'
+
 const gameState = {
   time: new Date().getTime(),
   tick: 32580,
@@ -59,15 +69,26 @@ const gameState = {
   ]
 }
 
-const mainModel = new Model(mainSchema)
 const buffer = mainModel.toBuffer(gameState)
-const data = mainModel.fromBuffer(buffer)
 
 // toBuffer() shrunk the byte size from 241 to only 56
 // that is -77% compression!
 console.log(JSON.stringify(gameState).length) // 241
 console.log(buffer.byteLength) // 56
-console.log(JSON.stringify(data).length) // 241
+
+// send the buffer to the client (using geckos.io or any other library)
+sendMessage(buffer)
+```
+
+#### client.js
+
+```js
+import { mainModel } from './common.js'
+
+onMessage(buffer => {
+  // access your game state
+  const gameState = mainModel.fromBuffer(buffer)
+})
 ```
 
 ## DataViews
