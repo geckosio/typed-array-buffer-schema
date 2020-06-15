@@ -2,7 +2,7 @@
   "name": "@geckos.io/typed-array-buffer-schema",
   "version": "0.0.1",
   "description": "A Schema based Object to Buffer converter",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "start": "npm run dev",
     "dev": "npm run build && npm-run-all --parallel dev:*",
