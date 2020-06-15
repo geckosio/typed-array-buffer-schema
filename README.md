@@ -19,6 +19,12 @@
 
 ---
 
+## Introduction
+
+Checkout this short introduction video on YouTube!
+
+https://youtu.be/TBd1miOrLPQ
+
 ## Usage
 
 #### common.js
