@@ -18,6 +18,9 @@
     "typed",
     "array",
     "buffer",
+    "typedArray",
+    "arrayBuffer",
+    "serialize",
     "serialization",
     "schema",
     "binary"
