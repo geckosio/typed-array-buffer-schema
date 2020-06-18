@@ -25,6 +25,16 @@ Checkout this short introduction video on YouTube!
 
 https://youtu.be/TBd1miOrLPQ
 
+## Install
+
+```console
+npm install @geckos.io/typed-array-buffer-schema
+```
+
+## Snapshot Interpolation
+
+You can easily combine this library with the Snapshot Interpolation library [@geckos.io/snapshot-interpolation](https://www.npmjs.com/package/@geckos.io/snapshot-interpolation).
+
 ## Usage
 
 #### common.js
