@@ -34,6 +34,7 @@
   "bugs": {
     "url": "https://github.com/geckosio/typed-array-buffer-schema/issues"
   },
+  "homepage": "http://geckos.io",
   "dependencies": {
     "lodash": "^4.17.15"
   },
