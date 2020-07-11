@@ -155,8 +155,10 @@ export class Serialize {
     // check where, in the buffer, the schemas are
     let index = 0
     let indexes: number[] = []
+
     const view = new DataView(buffer)
     const int8 = Array.from(new Int8Array(buffer))
+
     while (index > -1) {
       index = int8.indexOf(35, index)
       if (index !== -1) {
@@ -174,10 +176,14 @@ export class Serialize {
       }
       schemaIds.push(id)
     })
-    // assemble all info about the schemas we need
 
-    const schemas = schemaIds.map((id, i) => {
-      return { id, schema: Lib._schemas.get(id), startsAt: indexes[i] + 5 }
+    // assemble all info about the schemas we need
+    let schemas: { id: string; schema: any; startsAt: number }[] = []
+    schemaIds.forEach((id, i) => {
+      // check if the schemaId exists
+      // (this can be, for example, if charCode 35 is not really a #)
+      const schemaId = Lib._schemas.get(id)
+      if (schemaId) schemas.push({ id, schema: Lib._schemas.get(id), startsAt: indexes[i] + 5 })
     })
     // schemas[] contains now all the schemas we need to fromBuffer the bufferArray
 
@@ -284,6 +290,8 @@ export class Serialize {
       let start = s.startsAt
       let end = buffer.byteLength
       let id = s.schema?.id || 'XX'
+
+      if (id === 'XX') console.error('ERROR: Something went horribly wrong!')
 
       try {
         end = schemas[i + 1].startsAt - 5
