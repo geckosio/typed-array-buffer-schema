@@ -14,9 +14,7 @@ export class Lib {
         hash |= 0 // Convert to 32bit integer
       }
       hash *= 254785 // times a random number
-      return Math.abs(hash)
-        .toString(32)
-        .slice(2, 6)
+      return Math.abs(hash).toString(32).slice(2, 6)
     }
 
     let hash = strToHash(JSON.stringify(_struct) + name)
