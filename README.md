@@ -56,7 +56,7 @@ const towerSchema = BufferSchema.schema('tower', {
   team: uint8
 })
 
-const mainSchema = BufferSchema.schema('snapshot', {
+const mainSchema = BufferSchema.schema('main', {
   time: int64,
   tick: uint16,
   players: [playerSchema],
