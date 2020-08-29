@@ -16,6 +16,7 @@ describe('simple test', () => {
 
   const snapshotSchema = BufferSchema.schema('snapshot', {
     time: uint16,
+    numbers: { single: uint8, list: [uint8] },
     data: { players: [playerSchema], castles: [castleSchema] }
   })
 
@@ -23,6 +24,10 @@ describe('simple test', () => {
 
   const snap = {
     time: 1234,
+    numbers: {
+      single: 0,
+      list: [1]
+    },
     data: {
       castles: [{ id: 2, health: 81 }],
       players: [
@@ -51,13 +56,15 @@ describe('simple test', () => {
     buffer = SnapshotModel.toBuffer(snap)
     const uint8 = new Uint8Array(buffer)
     expect(typeof buffer).toBe('object')
-    expect(uint8.buffer.byteLength).toBe(29)
+    expect(uint8.buffer.byteLength).toBe(31)
   })
 
   test('should fromBuffer', () => {
     data = SnapshotModel.fromBuffer(buffer)
     expect(data.time).toBe(1234)
     expect(data.data.players[0].x).toBe(145)
+    expect(data.numbers.single).toBe(0)
+    expect(data.numbers.list[0]).toBe(1)
   })
 
   test('stringified version should have same length', () => {
