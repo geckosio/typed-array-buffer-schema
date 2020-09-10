@@ -37,7 +37,7 @@ You can easily combine this library with the Snapshot Interpolation library [@ge
 
 ## Usage
 
-#### common.js
+#### model.js
 
 ```js
 import { BufferSchema, Model } from '@geckos.io/typed-array-buffer-schema'
@@ -69,7 +69,7 @@ export const mainModel = new Model(mainSchema)
 #### server.js
 
 ```js
-import { mainModel } from './common.js'
+import { mainModel } from './model'
 
 const gameState = {
   time: new Date().getTime(),
@@ -99,7 +99,7 @@ sendMessage(buffer)
 #### client.js
 
 ```js
-import { mainModel } from './common.js'
+import { mainModel } from './model'
 
 onMessage(buffer => {
   // access your game state
