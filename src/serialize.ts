@@ -1,7 +1,7 @@
 import { Schema } from './schema'
 import { uint8 } from './views'
 import { Lib } from './lib'
-import { set } from 'lodash'
+import set from 'lodash/set'
 
 export class Serialize {
   protected _buffer: ArrayBuffer = new ArrayBuffer(0)
