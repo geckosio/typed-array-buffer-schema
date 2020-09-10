@@ -1,6 +1,6 @@
 {
   "name": "@geckos.io/typed-array-buffer-schema",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Schema based Object to Buffer converter",
   "main": "lib/index.js",
   "scripts": {
