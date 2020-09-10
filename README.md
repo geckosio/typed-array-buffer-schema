@@ -27,8 +27,20 @@ https://youtu.be/TBd1miOrLPQ
 
 ## Install
 
+Install from npm.
+
 ```console
 npm install @geckos.io/typed-array-buffer-schema
+```
+
+Or use the bundled version.
+
+```html
+<script src="https://unpkg.com/@geckos.io/typed-array-buffer-schema@1.0.1/bundle/typed-array-buffer-schema.js"></script>
+<script>
+  const { BufferSchema, Model }  = Schema
+  const { uint8, int16, uint16, int64, string8,, ...more } Schema
+</script>
 ```
 
 ## Snapshot Interpolation
