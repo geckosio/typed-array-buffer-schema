@@ -49,22 +49,8 @@ console.log(JSON.stringify(data).length) // 241
 //------------------------------------------------------------------
 // Get the Schema IDs
 //------------------------------------------------------------------
-const getSchemaIdFromBuffer = (buffer: ArrayBuffer) => {
-  const dataView = new DataView(buffer)
-  let id = ''
-
-  for (let i = 0; i < 5; i++) {
-    const uInt8 = dataView.getUint8(i)
-    id += String.fromCharCode(uInt8)
-  }
-
-  return id
-}
-
-const getSchemaIdFromSchema = (schema: Schema) => schema.id
-
-const bufferId = getSchemaIdFromBuffer(buffer)
-const schemaId = getSchemaIdFromSchema(mainSchema)
+const bufferId = Schema.getSchemaIdFromBuffer(buffer)
+const schemaId = Schema.getSchemaIdFromSchema(mainSchema)
 
 console.log(`bufferId: ${bufferId}`)
 console.log(`schemaId: ${schemaId}`)
