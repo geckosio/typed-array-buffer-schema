@@ -13,9 +13,11 @@ describe('get schema id test', () => {
 
   test('should get the same ids', () => {
 
-    const bufferId = Schema.getSchemaIdFromBuffer(buffer)
-    const schemaId = Schema.getSchemaIdFromSchema(schema)
+    const bufferId = BufferSchema.getIdFromBuffer(buffer)
+    const schemaId = BufferSchema.getIdFromSchema(schema)
+    const modelId = BufferSchema.getIdFromModel(model)
 
     expect(bufferId).toBe(schemaId)
+    expect(schemaId).toBe(modelId)
   })
 })

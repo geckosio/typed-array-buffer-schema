@@ -119,6 +119,21 @@ onMessage(buffer => {
 })
 ```
 
+## Schema ID
+
+Each Schema has an unique ID. To get the Schema ID from the Schema, Model or Buffer, use the helper functions listed below:
+
+```ts
+// get the schema id
+const schemaId = BufferSchema.getIdFromSchema(schema)
+
+// get the id of the top level schema (added via new Schema())
+const modelId = BufferSchema.getIdFromModel(model)
+
+// get the id of the top level schema
+const bufferId = BufferSchema.getIdFromBuffer(buffer)
+```
+
 ## DataViews
 
 A list of all supported dataViews

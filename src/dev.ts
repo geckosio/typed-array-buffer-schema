@@ -49,10 +49,12 @@ console.log(JSON.stringify(data).length) // 241
 //------------------------------------------------------------------
 // Get the Schema IDs
 //------------------------------------------------------------------
-const bufferId = Schema.getSchemaIdFromBuffer(buffer)
-const schemaId = Schema.getSchemaIdFromSchema(mainSchema)
+const bufferId = BufferSchema.getIdFromBuffer(buffer)
+const schemaId = BufferSchema.getIdFromSchema(mainSchema)
+const modelId = BufferSchema.getIdFromModel(mainModel)
 
 console.log(`bufferId: ${bufferId}`)
 console.log(`schemaId: ${schemaId}`)
+console.log(`modelId: ${modelId}`)
 
-if (bufferId === schemaId) console.log(`Schema name is "${mainSchema.name}"`)
+if (bufferId === schemaId && schemaId === modelId) console.log(`Schema name is "${mainSchema.name}"`)

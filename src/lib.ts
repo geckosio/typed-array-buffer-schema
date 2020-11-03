@@ -1,3 +1,4 @@
+import { Model } from './model'
 import { Schema } from './schema'
 
 export class Lib {
@@ -28,4 +29,20 @@ export class Lib {
     this._schemas.set(id, s)
     return s
   }
+
+  public static getIdFromBuffer = (buffer: ArrayBuffer) => {
+    const dataView = new DataView(buffer)
+    let id = ''
+
+    for (let i = 0; i < 5; i++) {
+      const uInt8 = dataView.getUint8(i)
+      id += String.fromCharCode(uInt8)
+    }
+
+    return id
+  }
+
+  public static getIdFromSchema = (schema: Schema) => schema.id
+
+  public static getIdFromModel = (model: Model) => model.schema.id
 }

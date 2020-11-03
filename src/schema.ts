@@ -8,20 +8,6 @@ export class Schema {
     this.calcBytes()
   }
 
-  public static getSchemaIdFromBuffer = (buffer: ArrayBuffer) => {
-    const dataView = new DataView(buffer)
-    let id = ''
-
-    for (let i = 0; i < 5; i++) {
-      const uInt8 = dataView.getUint8(i)
-      id += String.fromCharCode(uInt8)
-    }
-
-    return id
-  }
-
-  public static getSchemaIdFromSchema = (schema: Schema) => schema.id
-
   public static Validation(struct: Object) {
     // do all the validation here (as static me)
   }
