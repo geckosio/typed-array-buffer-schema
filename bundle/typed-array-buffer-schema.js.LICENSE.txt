@@ -1,0 +1,18 @@
+/*!
+ * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+/**
+ * @copyright
+ * Copyright (c) 2014 IndigoUnited (https://github.com/IndigoUnited)
+ * Copyright (c) 2021 Yannick Deubel (https://github.com/yandeu)
+ *
+ * @license {@link https://github.com/geckosio/geckos.io/blob/master/LICENSE BSD-3-Clause}
+ *
+ * @description
+ * copied and modified from deep-sort-object@1.0.2 (https://github.com/IndigoUnited/js-deep-sort-object/blob/master/index.js)
+ * previously licensed under MIT (https://github.com/IndigoUnited/js-deep-sort-object/blob/master/LICENSE)
+ */
