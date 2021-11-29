@@ -1,5 +1,8 @@
-.github
-coverage
-node_modules
-src
-test
+/*
+
+!/.npmrc
+!/README.md
+!/bundle
+!/lib
+!/package.json
+!/readme
