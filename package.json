@@ -1,6 +1,6 @@
 {
   "name": "@geckos.io/typed-array-buffer-schema",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A Schema based Object to Buffer converter",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -17,7 +17,8 @@
     "test": "jest --collectCoverage",
     "clean": "rimraf lib",
     "format": "prettier --write src/**/*.ts && prettier --write test/**/*.js",
-    "prepublishOnly": "npm run build && npm test && npm run bundle"
+    "preReleaseHook": "prepublishOnly",
+    "prepublishOnly": "npm i && npm run build && npm test && npm run bundle"
   },
   "keywords": [
     "typed",
