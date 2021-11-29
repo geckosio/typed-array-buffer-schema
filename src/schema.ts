@@ -22,17 +22,19 @@ export class Schema {
 
   private calcBytes() {
     const iterate = (obj: any) => {
-      for (var property in obj) {
+      for (let property in obj) {
         const type = obj?._type || obj?.type?._type
-        const bytes = obj._bytes || obj.type?._bytes
+        const bytes = obj?._bytes || obj?.type?._bytes
 
         if (!type && obj.hasOwnProperty(property)) {
           if (typeof obj[property] === 'object') {
             iterate(obj[property])
           }
-        } else {
-          if (property !== '_type' && property !== 'type') return
-          if (!bytes) return
+        }
+        //---
+        else {
+          if (property !== '_type' && property !== 'type') continue
+          if (!bytes) continue
 
           // we multiply the bytes by the String8 / String16 length.
           if (type === 'String8' || type === 'String16') {

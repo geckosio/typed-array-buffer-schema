@@ -1,3 +1,4 @@
+import { deepSortObject } from './deep-sort-object'
 import { Model } from './model'
 import { Schema } from './schema'
 
@@ -23,7 +24,8 @@ export class Lib {
     return `#${hash}`
   }
 
-  public static schema(name: string, _struct: Object) {
+  public static schema(name: string, _struct: object) {
+    _struct = deepSortObject(_struct as any)
     const id = Lib.newHash(name, _struct)
     const s = new Schema(id, name, _struct)
     this._schemas.set(id, s)

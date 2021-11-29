@@ -1,7 +1,7 @@
 import { Schema } from './schema'
-import { uint8 } from './views'
 import { Lib } from './lib'
 import set from 'lodash/set'
+import { deepSortObject } from './deep-sort-object'
 
 export class Serialize {
   protected _buffer: ArrayBuffer = new ArrayBuffer(0)
@@ -38,13 +38,15 @@ export class Serialize {
       // console.log('schema', typeof schema, schema)
       // console.log('data', typeof data, data)
 
-      for (var property in data) {
+      for (let property in data) {
         if (data.hasOwnProperty(property)) {
           if (typeof data[property] === 'object') {
             // if data is array, but schemas is flat, use index 0 on the next iteration
             if (Array.isArray(data)) flatten(schema, data[parseInt(property)])
             else flatten(schema[property], data[property])
-          } else {
+          }
+          //---
+          else {
             // handle special types e.g.:  "x: { type: int16, digits: 2 }"
             if (schema[property]?.type?._type) {
               if (schema[property]?.digits) {
@@ -74,7 +76,9 @@ export class Serialize {
     return flat
   }
 
-  public toBuffer(worldState: any) {
+  public toBuffer(state: any) {
+    let worldState = deepSortObject(state)
+
     // deep clone the worldState
     const data = JSON.parse(JSON.stringify(worldState))
 
@@ -89,52 +93,43 @@ export class Serialize {
           this._dataView.setUint8(this._bytes, f.d[j].charCodeAt(0))
           this._bytes++
         }
-      }
-      if (f.t === 'String16') {
+      } else if (f.t === 'String16') {
         for (let j = 0; j < f.d.length; j++) {
           this._dataView.setUint16(this._bytes, f.d[j].charCodeAt(0))
           this._bytes += 2
         }
-      }
-      if (f.t === 'Int8Array') {
+      } else if (f.t === 'Int8Array') {
         this._dataView.setInt8(this._bytes, f.d)
         this._bytes++
-      }
-      if (f.t === 'Uint8Array') {
+      } else if (f.t === 'Uint8Array') {
         this._dataView.setUint8(this._bytes, f.d)
         this._bytes++
-      }
-      if (f.t === 'Int16Array') {
+      } else if (f.t === 'Int16Array') {
         this._dataView.setInt16(this._bytes, f.d)
         this._bytes += 2
-      }
-      if (f.t === 'Uint16Array') {
+      } else if (f.t === 'Uint16Array') {
         this._dataView.setUint16(this._bytes, f.d)
         this._bytes += 2
-      }
-      if (f.t === 'Int32Array') {
+      } else if (f.t === 'Int32Array') {
         this._dataView.setInt32(this._bytes, f.d)
         this._bytes += 4
-      }
-      if (f.t === 'Uint32Array') {
+      } else if (f.t === 'Uint32Array') {
         this._dataView.setUint32(this._bytes, f.d)
         this._bytes += 4
-      }
-      if (f.t === 'BigInt64Array') {
+      } else if (f.t === 'BigInt64Array') {
         this._dataView.setBigInt64(this._bytes, BigInt(f.d))
         this._bytes += 8
-      }
-      if (f.t === 'BigUint64Array') {
+      } else if (f.t === 'BigUint64Array') {
         this._dataView.setBigUint64(this._bytes, BigInt(f.d))
         this._bytes += 8
-      }
-      if (f.t === 'Float32Array') {
+      } else if (f.t === 'Float32Array') {
         this._dataView.setFloat32(this._bytes, f.d)
         this._bytes += 4
-      }
-      if (f.t === 'Float64Array') {
+      } else if (f.t === 'Float64Array') {
         this._dataView.setFloat64(this._bytes, f.d)
         this._bytes += 8
+      } else {
+        console.log('ERROR: Something unexpected happened!')
       }
     })
 
@@ -166,6 +161,7 @@ export class Serialize {
         index++
       }
     }
+
     // get the schema ids
     let schemaIds: string[] = []
     indexes.forEach(index => {
@@ -195,7 +191,7 @@ export class Serialize {
     const deserializeSchema = (struct: any) => {
       let data = {}
       if (typeof struct === 'object') {
-        for (var property in struct) {
+        for (let property in struct) {
           if (struct.hasOwnProperty(property)) {
             const prop = struct[property]
 
