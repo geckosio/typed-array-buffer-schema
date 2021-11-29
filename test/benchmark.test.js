@@ -1,11 +1,4 @@
-const {
-  BufferSchema,
-  Model,
-  uint8,
-  int8,
-  int16,
-  uint16
-} = require('../lib/index.js')
+const { BufferSchema, Model, uint8, int8, int16, uint16 } = require('../lib/index.js')
 
 describe('simple test', () => {
   const playerSchema = BufferSchema.schema('player', {

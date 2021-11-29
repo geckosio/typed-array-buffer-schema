@@ -12,7 +12,6 @@ describe('get schema id test', () => {
   const buffer = model.toBuffer(state)
 
   test('should get the same ids', () => {
-
     const bufferId = BufferSchema.getIdFromBuffer(buffer)
     const schemaId = BufferSchema.getIdFromSchema(schema)
     const modelId = BufferSchema.getIdFromModel(model)
