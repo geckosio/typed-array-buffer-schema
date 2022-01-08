@@ -272,6 +272,11 @@ export class Serialize {
                 value *= Math.pow(10, -specialTypes.digits)
                 value = parseFloat(value.toFixed(specialTypes.digits))
               }
+              
+              // trim whitespace from strings
+              if (typeof value === 'string') {
+                value = value.trim();
+              }
 
               data = { ...data, [property]: value }
             }
