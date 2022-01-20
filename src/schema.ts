@@ -19,12 +19,18 @@ export class Schema {
   public get name() {
     return this._name
   }
+  
+  private isSpecialType(prop: object) {
+    let propKeys = Object.keys(prop).filter(k => k != "type" && k != "digits" && k != "length")
+
+    return !propKeys.length
+  }
 
   private calcBytes() {
     const iterate = (obj: any) => {
       for (let property in obj) {
-        const type = obj?._type || obj?.type?._type
-        const bytes = obj?._bytes || obj?.type?._bytes
+        const type = obj?._type || (this.isSpecialType(obj) ? obj?.type?._type : false)
+        const bytes = obj?._bytes || (this.isSpecialType(obj) ? obj?.type?._bytes : false)
 
         if (!type && obj.hasOwnProperty(property)) {
           if (typeof obj[property] === 'object') {
