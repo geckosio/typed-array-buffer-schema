@@ -20,6 +20,12 @@ export class Serialize {
     return str.padEnd(length, ' ').slice(0, length)
   }
 
+  private isSpecialType(prop: object) {
+    let propKeys = Object.keys(prop).filter(k => k != "type" && k != "digits" && k != "length")
+
+    return !propKeys.length
+  }
+
   public flatten(schema: any, data: any) {
     let flat: any[] = []
 
@@ -35,7 +41,6 @@ export class Serialize {
       else if (schema?.[0]?._struct) schema = schema[0]._struct
 
       // console.log('-------')
-      // console.log('schema', typeof schema, schema)
       // console.log('data', typeof data, data)
 
       for (let property in data) {
@@ -47,8 +52,8 @@ export class Serialize {
           }
           //---
           else {
-            // handle special types e.g.:  "x: { type: int16, digits: 2 }"
-            if (schema[property]?.type?._type) {
+            // handle specialTypes e.g.:  "x: { type: int16, digits: 2 }"
+            if (schema[property]?.type?._type && this.isSpecialType(schema[property])) {
               if (schema[property]?.digits) {
                 data[property] *= Math.pow(10, schema[property].digits)
                 data[property] = parseInt(data[property].toFixed(0))
@@ -59,7 +64,7 @@ export class Serialize {
               }
               flat.push({ d: data[property], t: schema[property].type._type })
             } else {
-              // crop strings to default lenght of 12 characters if nothing else is specified
+              // crop strings to default length of 12 characters if nothing else is specified
               if (schema[property]._type === 'String8' || schema[property]._type === 'String16') {
                 data[property] = this.cropString(data[property], 12)
               }
@@ -197,7 +202,7 @@ export class Serialize {
 
             // handle specialTypes e.g.:  "x: { type: int16, digits: 2 }"
             let specialTypes
-            if (prop?.type?._type && prop?.type?._bytes) {
+            if (prop?.type?._type && prop?.type?._bytes && this.isSpecialType(prop)) {
               specialTypes = prop
               prop._type = prop.type._type
               prop._bytes = prop.type._bytes
