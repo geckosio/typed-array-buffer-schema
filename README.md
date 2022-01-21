@@ -57,7 +57,10 @@ import { uint8, int16, uint16, int64, string8 } from '@geckos.io/typed-array-buf
 
 const playerSchema = BufferSchema.schema('player', {
   id: uint8,
+  // The length parameter controls the length of a String8 or String16
   name: { type: string8, length: 6 },
+  // The digits parameter controls where the decimal point is placed
+  // Therefore, it divides the maximum and minimum values by 10^n
   x: { type: int16, digits: 2 },
   y: { type: int16, digits: 2 }
 })
