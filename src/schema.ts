@@ -21,7 +21,7 @@ export class Schema {
   }
   
   private isSpecialType(prop: object) {
-    let propKeys = Object.keys(prop).filter(k => k != "type" && k != "digits" && k != "length")
+    let propKeys = Object.keys(prop).filter(k => k != 'type' && k != 'digits' && k != 'length')
 
     return !propKeys.length
   }

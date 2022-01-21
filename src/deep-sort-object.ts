@@ -12,7 +12,7 @@
 
 import { isPlainObject } from 'is-plain-object'
 
-const isPlainArray = (arr: any) => Array.isArray(arr)
+const isPlainArray = (arr: any) => Array.isArray(arr) && (arr.length > 0 ? typeof arr[0] == "object" : true)
 
 const isValue = (val: any) => !isPlainObject(val) && !isPlainArray(val)
 

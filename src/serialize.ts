@@ -21,9 +21,25 @@ export class Serialize {
   }
 
   private isSpecialType(prop: object) {
-    let propKeys = Object.keys(prop).filter(k => k != "type" && k != "digits" && k != "length")
+    let propKeys = Object.keys(prop).filter(k => k != 'type' && k != 'digits' && k != 'length')
 
     return !propKeys.length
+  }
+
+  private boolArrayToInt(array: any) {
+    // start with 1 to avoid errors such as 010 -> 10
+    // now it will be 1010 which will not simplify
+    let string = '1'
+    for (var i = 0; i < array.length; i++) {
+	    string += +(!!array[i])
+    }
+    return parseInt(string, 2)
+  }
+
+  private intToBoolArray(int: number) {
+    // convert string to array, map the numbers to bools,
+    // and remove the initial 1
+    return [...(int >>> 0).toString(2)].map(e=> e == '0' ? false : true).slice(1)
   }
 
   public flatten(schema: any, data: any) {
@@ -43,12 +59,19 @@ export class Serialize {
       // console.log('-------')
       // console.log('data', typeof data, data)
 
-      for (let property in data) {
+      let property: any
+      for (property in data) {
         if (data.hasOwnProperty(property)) {
           if (typeof data[property] === 'object') {
             // if data is array, but schemas is flat, use index 0 on the next iteration
-            if (Array.isArray(data)) flatten(schema, data[parseInt(property)])
-            else flatten(schema[property], data[property])
+            if (Array.isArray(data)) {
+              flatten(schema, data[parseInt(property)])
+            } else if (schema[property]?._type === "BitArray8" || schema[property]?._type === "BitArray16") {
+              flat.push({
+                d: this.boolArrayToInt(data[property]),
+                t: schema[property]._type
+              })
+            } else flatten(schema[property], data[property])
           }
           //---
           else {
@@ -64,11 +87,13 @@ export class Serialize {
               }
               flat.push({ d: data[property], t: schema[property].type._type })
             } else {
-              // crop strings to default length of 12 characters if nothing else is specified
-              if (schema[property]._type === 'String8' || schema[property]._type === 'String16') {
-                data[property] = this.cropString(data[property], 12)
+              if (schema[property]?._type) {
+                // crop strings to default length of 12 characters if nothing else is specified
+                if (schema[property]?._type === 'String8' || schema[property]?._type === 'String16') {
+                  data[property] = this.cropString(data[property], 12)
+                }
+                flat.push({ d: data[property], t: schema[property]._type })
               }
-              flat.push({ d: data[property], t: schema[property]._type })
             }
           }
         } else {
@@ -133,6 +158,12 @@ export class Serialize {
       } else if (f.t === 'Float64Array') {
         this._dataView.setFloat64(this._bytes, f.d)
         this._bytes += 8
+      } else if (f.t === 'BitArray8') {
+        this._dataView.setUint8(this._bytes, f.d)
+        this._bytes++
+      } else if (f.t === 'BitArray16') {
+        this._dataView.setUint16(this._bytes, f.d)
+        this._bytes += 2
       } else {
         console.log('ERROR: Something unexpected happened!')
       }
@@ -269,6 +300,14 @@ export class Serialize {
               }
               if (_type === 'Float64Array') {
                 value = view.getFloat64(bytes)
+                bytes += _bytes
+              }
+              if (_type === 'BitArray8') {
+                value = this.intToBoolArray(view.getUint8(bytes))
+                bytes += _bytes
+              }
+              if (_type === 'BitArray16') {
+                value = this.intToBoolArray(view.getUint16(bytes))
                 bytes += _bytes
               }
 

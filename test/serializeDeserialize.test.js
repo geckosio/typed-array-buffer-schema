@@ -1,21 +1,24 @@
-const { BufferSchema, Model, uint8, uint32, string8, int16 } = require('../lib/index.js')
+const { BufferSchema, Model, uint8, uint32, string8, int16, bool8 } = require('../lib/index.js')
 
 // see: https://github.com/geckosio/typed-array-buffer-schema/issues/7
 describe('serialize deserialize', () => {
   const movementSchema = BufferSchema.schema('movement', {
     sequenceNumber: uint32,
     horizontal: uint8,
-    vertical: uint8
+    vertical: uint8,
+    options: bool8
   })
   const movementModel = new Model(movementSchema)
 
   const inOrder = {
     sequenceNumber: 2,
     horizontal: 4,
-    vertical: 4
+    vertical: 4,
+    options: [false, true, false]
   }
   const notInOrder = {
     horizontal: 4,
+    options: [false, true, false],
     vertical: 4,
     sequenceNumber: 2
   }
@@ -27,6 +30,7 @@ describe('serialize deserialize', () => {
     expect(deserialized.sequenceNumber).toBe(2)
     expect(deserialized.horizontal).toBe(4)
     expect(deserialized.vertical).toBe(4)
+    expect(deserialized.options[1]).toBe(true)
   })
 
   it('should work if NOT defined in order', () => {
@@ -36,6 +40,7 @@ describe('serialize deserialize', () => {
     expect(deserialized.sequenceNumber).toBe(2)
     expect(deserialized.horizontal).toBe(4)
     expect(deserialized.vertical).toBe(4)
+    expect(deserialized.options[1]).toBe(true)
   })
 })
 
@@ -60,7 +65,8 @@ describe('serialize deserialize (complex)', () => {
     players: [playerSchema],
     time: uint32,
     stats: TimerSchema,
-    castles: [castleSchema]
+    castles: [castleSchema],
+    config: bool8
   })
 
   const gameModel = new Model(gameSchema)
@@ -79,7 +85,8 @@ describe('serialize deserialize (complex)', () => {
     players: [
       { id: 25, x: 788, y: -14 },
       { x: 1, y: 2, id: 87 }
-    ]
+    ],
+    config: [true, false, true, true, true]
   }
 
   it('should work if defined randomly', () => {
@@ -92,5 +99,6 @@ describe('serialize deserialize (complex)', () => {
     expect(deserialized.name.trim()).toBe('myGame')
     expect(deserialized.time).toBe(timeInSeconds)
     expect(deserialized.stats.time).toBe(timeInSeconds)
+    expect(deserialized.config[1]).toBe(false)
   })
 })
