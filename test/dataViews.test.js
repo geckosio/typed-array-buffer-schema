@@ -12,7 +12,9 @@ const {
   float32,
   float64,
   string8,
-  string16
+  string16,
+  bool8,
+  bool16
 } = require('../lib/index.js')
 
 describe('dataViews test', () => {
@@ -29,7 +31,9 @@ describe('dataViews test', () => {
     j: float64,
     k: string8,
     kk: { type: string8, length: 24 },
-    l: string16
+    l: string16,
+    m: bool8,
+    n: bool16
   })
 
   const snapshotSchema = BufferSchema.schema('snapshot', {
@@ -55,7 +59,9 @@ describe('dataViews test', () => {
         j: 1.123456789,
         k: 'This line is too long.',
         kk: 'This line is too long.',
-        l: 'Эта строка слишком длинная.'
+        l: 'Эта строка слишком длинная.',
+        m: [true, false, false],
+        n: [true, true, false, true, true, true, false, false, false, true]
       }
     ]
   }
@@ -67,6 +73,8 @@ describe('dataViews test', () => {
     buffer = SnapshotModel.toBuffer(data)
     data = SnapshotModel.fromBuffer(buffer)
 
+    expect(data.players[0].m[2]).toBe(false)
+    expect(data.players[0].n[7]).toBe(false)
     expect(data.players[0].g).toBe(now)
     expect(data.players[0].h).toBe(now)
     expect(data.players[0].k).toBe('This line is')

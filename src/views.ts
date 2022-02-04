@@ -30,3 +30,8 @@ export const float64 = { _type: 'Float64Array', _bytes: 8 }
 export const string8 = { _type: 'String8', _bytes: 1 }
 /** 2 bytes per character */
 export const string16 = { _type: 'String16', _bytes: 2 }
+
+/** An array of 7 booleans */
+export const bool8 = { _type: 'BitArray8', _bytes: 1 }
+/** An array of 15 booleans */
+export const bool16 = { _type: 'BitArray16', _bytes: 2 }

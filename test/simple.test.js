@@ -1,4 +1,4 @@
-const { BufferSchema, Model, uint8, int16, uint16, string8 } = require('../lib/index.js')
+const { BufferSchema, Model, uint8, int16, uint16, string8, bool8 } = require('../lib/index.js')
 
 describe('simple test', () => {
   const castleSchema = BufferSchema.schema('castle', {
@@ -22,7 +22,8 @@ describe('simple test', () => {
   const snapshotSchema = BufferSchema.schema('snapshot', {
     time: uint16,
     single: uint8,
-    data: { list: [listSchema], players: [playerSchema], castles: [castleSchema] }
+    data: { list: [listSchema], players: [playerSchema], castles: [castleSchema] },
+    serverConfig: bool8
   })
 
   const SnapshotModel = new Model(snapshotSchema)
@@ -51,7 +52,8 @@ describe('simple test', () => {
           y: -14
         }
       ]
-    }
+    },
+    serverConfig: [true, false, true, false, false]
   }
 
   let buffer
@@ -66,7 +68,7 @@ describe('simple test', () => {
     const uint8 = new Uint8Array(buffer)
 
     expect(typeof buffer).toBe('object')
-    expect(uint8.buffer.byteLength).toBe(40)
+    expect(uint8.buffer.byteLength).toBe(41)
   })
 
   test('should fromBuffer', () => {
