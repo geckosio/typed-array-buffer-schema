@@ -9,6 +9,7 @@
 
     "strict": true,
     "esModuleInterop": true,
+    "newLine": "lf",
 
     "sourceMap": true,
     "declaration": true,
