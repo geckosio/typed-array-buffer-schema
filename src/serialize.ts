@@ -8,10 +8,10 @@ export class Serialize {
   protected _dataView: DataView = new DataView(this._buffer)
   protected _bytes: number = 0
 
-  constructor(protected schema: Schema) {}
+  constructor(protected schema: Schema, private bufferSize: number) {}
 
   public refresh() {
-    this._buffer = new ArrayBuffer(8 * 1024)
+    this._buffer = new ArrayBuffer(this.bufferSize * 1024)
     this._dataView = new DataView(this._buffer)
     this._bytes = 0
   }
@@ -31,7 +31,7 @@ export class Serialize {
     // now it will be 1010 which will not simplify
     let string = '1'
     for (var i = 0; i < array.length; i++) {
-	    string += +(!!array[i])
+      string += +!!array[i]
     }
     return parseInt(string, 2)
   }
@@ -39,7 +39,7 @@ export class Serialize {
   private intToBoolArray(int: number) {
     // convert string to array, map the numbers to bools,
     // and remove the initial 1
-    return [...(int >>> 0).toString(2)].map(e=> e == '0' ? false : true).slice(1)
+    return [...(int >>> 0).toString(2)].map(e => (e == '0' ? false : true)).slice(1)
   }
 
   public flatten(schema: any, data: any) {
@@ -66,7 +66,7 @@ export class Serialize {
             // if data is array, but schemas is flat, use index 0 on the next iteration
             if (Array.isArray(data)) {
               flatten(schema, data[parseInt(property)])
-            } else if (schema[property]?._type === "BitArray8" || schema[property]?._type === "BitArray16") {
+            } else if (schema[property]?._type === 'BitArray8' || schema[property]?._type === 'BitArray16') {
               flat.push({
                 d: this.boolArrayToInt(data[property]),
                 t: schema[property]._type
