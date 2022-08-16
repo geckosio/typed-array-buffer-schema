@@ -9,8 +9,8 @@ describe('simple test', () => {
 
   const playerSchema = BufferSchema.schema('player', {
     id: uint8,
-    // x: { type: int16, digits: 2 },
-    // y: { type: int16, digits: 2 },
+    a: { type: int16, digits: 1 },
+    b: { type: int16, digits: 1 },
     x: int16,
     y: int16
   })
@@ -43,11 +43,15 @@ describe('simple test', () => {
       players: [
         {
           id: 14,
+          a: 10,
+          b: 5,
           x: 145,
           y: 98
         },
         {
           id: 15,
+          a: 7,
+          b: -55,
           x: 218,
           y: -14
         }
@@ -76,6 +80,8 @@ describe('simple test', () => {
 
     expect(data.time).toBe(1234)
     expect(data.data.players[0].x).toBe(145)
+    expect(data.data.players[0].a).toBe(10)
+    expect(data.data.players[1].b).toBe(-55)
   })
 
   test('stringified version should have same length', () => {
