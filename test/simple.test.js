@@ -1,4 +1,5 @@
 const { BufferSchema, Model, uint8, int16, uint16, string8, bool8 } = require('../lib/index.js')
+const _ = require('underscore')
 
 describe('simple test', () => {
   const castleSchema = BufferSchema.schema('castle', {
@@ -72,7 +73,7 @@ describe('simple test', () => {
     const uint8 = new Uint8Array(buffer)
 
     expect(typeof buffer).toBe('object')
-    expect(uint8.buffer.byteLength).toBe(41)
+    expect(uint8.buffer.byteLength).toBe(49)
   })
 
   test('should fromBuffer', () => {
@@ -85,6 +86,6 @@ describe('simple test', () => {
   })
 
   test('stringified version should have same length', () => {
-    expect(JSON.stringify(snap).length).toBe(JSON.stringify(data).length)
+    expect(_.isEqual(snap, data)).toBeTruthy()
   })
 })

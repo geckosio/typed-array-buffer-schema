@@ -233,7 +233,7 @@ export class Serialize {
 
             // handle specialTypes e.g.:  "x: { type: int16, digits: 2 }"
             let specialTypes
-            if (prop?.type?._type && prop?.type?._bytes && this.isSpecialType(prop)) {
+            if (prop?.type?._type || prop?.type?._bytes || this.isSpecialType(prop)) {
               specialTypes = prop
               prop._type = prop.type._type
               prop._bytes = prop.type._bytes
